@@ -1,0 +1,7 @@
+.env
+.venv
+node_modules/
+dist/
+build/`;
+
+module.exports = gitignore;
