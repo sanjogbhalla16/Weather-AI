@@ -16,5 +16,27 @@ import uvicorn
 load_dotenv()
 logfire.configure()
 
+@dataclass
+class Deps:
+    client: AsyncClient
+    weather_api_key: str|None
+    geo_api_key: str|None
+    openweather_api_key: str|None
 
-logfire.info("Starting Gemini Agent")
+model = GeminiModel(model_name="gemini-2.0-flash-exp",api_key=os.getenv("GEMINI_API_KEY"))
+
+agent = Agent(model=model)
+
+@agent.system_prompt
+def system_prompt(context: RunContext):
+    return "You are a math expert"
+
+@agent.tool
+async def get_lat_lng(ctx:RunContext[Deps],location_Description:str)->dict[str,float]:
+    return {"lat":0.0,"lng":0.0}
+    
+
+result = agent.run_sync("What is the square root of 144?")
+
+logfire.info("The result is: {result}",result=result.data)
+
