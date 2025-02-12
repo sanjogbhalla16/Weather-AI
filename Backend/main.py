@@ -22,6 +22,8 @@ class Deps:
     weather_api_key: str|None
     geo_api_key: str|None
     openweather_api_key: str|None
+    
+#we need to provides these Deps into our agent using params 
 
 model = GeminiModel(model_name="gemini-2.0-flash-exp",api_key=os.getenv("GEMINI_API_KEY"))
 
@@ -38,20 +40,40 @@ async def get_lat_lng(ctx:RunContext[Deps],location_Description:str)->dict[str,f
     Args:
         ctx (RunContext[Deps]): the run context
         location_Description (str): A description of the location
-
-    Returns:
-        dict[str,float]: _description_
     """
+    print("is this giving output",ctx.deps.geo_api_key)
     if ctx.deps.geo_api_key is None:
         return {'lat':51.1,'lng':10.3}
+    
     params={
         'q':location_Description,
         'api_key':ctx.deps.geo_api_key
     }
     with logfire.span('Calling geocode API',params=params) as span:
-        response = await deps.client.get('')
+        response = await ctx.deps.client.get('https://geocode.maps.co/search',params)
+        response.raise_for_status()
+        data = response.json()
+        span.set_attribute('response69',data)
+        
+        return {'lat':data[0]['lat'], 'lng':data[0]['lon']}
+    
+async def main():
+    geo_api_key = os.getenv('GEO_API_KEY')
+    #print(geo_api_key)
+    weather_api_key = os.getenv('WEATHER_API_KEY')
+    openweather_api_key = os.getenv('OPENWEATHER_API_KEY')
+    
+    
+    async with AsyncClient() as client:
+        deps = Deps(
+            client=client,
+            geo_api_key = geo_api_key,
+            weather_api_key=weather_api_key,
+            openweather_api_key=openweather_api_key    
+        )
 
-result = agent.run_sync("What is the square root of 144?")
+        result = await agent.run("what are the exact coordinates of london",deps=deps)
+        
 
-logfire.info("The result is: {result}",result=result.data)
+asyncio.run(main())
 
