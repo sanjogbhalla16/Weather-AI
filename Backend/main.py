@@ -50,7 +50,7 @@ async def get_lat_lng(ctx:RunContext[Deps],location_Description:str)->dict[str,f
         'api_key':ctx.deps.geo_api_key
     }
     with logfire.span('Calling geocode API',params=params) as span:
-        response = await ctx.deps.client.get('https://geocode.maps.co/search',params)
+        response = await ctx.deps.client.get('https://geocode.maps.co/search',params=params)
         response.raise_for_status()
         data = response.json()
         span.set_attribute('response69',data)
@@ -59,7 +59,6 @@ async def get_lat_lng(ctx:RunContext[Deps],location_Description:str)->dict[str,f
     
 async def main():
     geo_api_key = os.getenv('GEO_API_KEY')
-    #print(geo_api_key)
     weather_api_key = os.getenv('WEATHER_API_KEY')
     openweather_api_key = os.getenv('OPENWEATHER_API_KEY')
     
@@ -71,7 +70,7 @@ async def main():
             weather_api_key=weather_api_key,
             openweather_api_key=openweather_api_key    
         )
-
+        print("Deps:", deps)  # Debugging print
         result = await agent.run("what are the exact coordinates of london",deps=deps)
         
 
