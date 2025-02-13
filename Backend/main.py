@@ -127,6 +127,38 @@ async def get_weather(ctx:RunContext[Deps],lat:float,lng:float)->dict[str,any]:
             'description': code_lookup.get(values['weatherCode'], "Unknown")
         }
 
+
+@agent.tool
+async def get_air_quality(ctx:RunContext[Deps],lat:float,lng:float)->dict[str,any]:
+    """Get the air quality at a location
+
+    Args:
+        ctx (RunContext[Deps]): the run context
+        lat (float): the latitude of the location
+        lng (float): the longitude of the location
+    """
+    
+    if ctx.deps.openweather_api_key is None:
+        return {'air_quality': 0, 'air_pollutants': []}
+    
+    params={
+        'lat': lat,
+        'lon': lng,
+        'appid':ctx.deps.openweather_api_key
+    }
+    with logfire.span('Calling weather API',params=params) as span:
+        response = await ctx.deps.client.get('http://api.openweathermap.org/data/2.5/air_pollution',params=params)
+        response.raise_for_status()
+        data = response.json() #this will give the data in json format
+        print(data)
+        span.set_attribute('response',data)
+    
+    return {
+        'air_quality': data['list'][0]['main']['aqi'],
+        'pollutants': data['list'][0]['components']
+    }
+    
+    
 async def main():
     geo_api_key = os.getenv('GEO_API_KEY')
     weather_api_key = os.getenv('WEATHER_API_KEY')
