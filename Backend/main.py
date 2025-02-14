@@ -12,9 +12,27 @@ import time
 from typing import List,Union
 from fastapi import FastAPI
 import uvicorn
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 logfire.configure()
+
+
+#FastAPI Instance
+app = FastAPI()
+
+#we have a frontend origin which is localhost:3000
+origins = [
+    "https://localhost:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @dataclass
 class Deps:
@@ -158,8 +176,13 @@ async def get_air_quality(ctx:RunContext[Deps],lat:float,lng:float)->dict[str,an
         'pollutants': data['list'][0]['components']
     }
     
-    
-async def main():
+
+class weatherQuery(BaseModel):
+    query:str
+
+@app.post('/weather')
+async def main(body:weatherQuery):
+    query:body.query
     geo_api_key = os.getenv('GEO_API_KEY')
     weather_api_key = os.getenv('WEATHER_API_KEY')
     openweather_api_key = os.getenv('OPENWEATHER_API_KEY')
@@ -173,8 +196,12 @@ async def main():
             openweather_api_key=openweather_api_key    
         )
         print("Deps:", deps)  # Debugging print
-        result = await agent.run("what are the exact coordinates and weather of london",deps=deps)
+        result = await agent.run(query,deps=deps)
+        return result.data
         
 
-asyncio.run(main())
+if __name__ == "__main__":
+    uvicorn.run("main:app", reload=True, host="localhost", port=8000)
+
+
 
