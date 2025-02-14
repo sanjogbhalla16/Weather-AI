@@ -182,7 +182,7 @@ class weatherQuery(BaseModel):
 
 @app.post('/weather')
 async def main(body:weatherQuery):
-    query:body.query
+    query: str = body.query
     geo_api_key = os.getenv('GEO_API_KEY')
     weather_api_key = os.getenv('WEATHER_API_KEY')
     openweather_api_key = os.getenv('OPENWEATHER_API_KEY')
