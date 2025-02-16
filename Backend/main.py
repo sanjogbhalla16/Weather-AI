@@ -34,12 +34,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @dataclass
 class Deps:
     client: AsyncClient
     weather_api_key: str|None
     geo_api_key: str|None
     openweather_api_key: str|None
+
     
 class WeatherResponse(BaseModel):
     location:str
@@ -50,12 +52,18 @@ class WeatherResponse(BaseModel):
     pollutant_values:List[int]
     latitude:float
     longitude:float
+
+
+class LocationNotFound(BaseModel):
+    error:str
+    
+Result = Union[WeatherResponse,LocationNotFound]
     
 #we need to provides these Deps into our agent using params 
 
 model = GeminiModel(model_name="gemini-2.0-flash-exp",api_key=os.getenv("GEMINI_API_KEY"))
 
-agent = Agent(model=model,deps_type=Deps,result_type=WeatherResponse)
+agent = Agent(model=model,deps_type=Deps,result_type=Result)
 
 @agent.system_prompt
 def system_prompt(context: RunContext):
@@ -82,7 +90,8 @@ async def get_lat_lng(ctx:RunContext[Deps],location_Description:str)->dict[str,f
         response.raise_for_status()
         data = response.json()
         span.set_attribute('response69',data)
-        
+        if not data:
+            return {'error':'Location not found'}
         return {'lat':data[0]['lat'], 'lng':data[0]['lon']}
 
 @agent.tool
@@ -112,6 +121,7 @@ async def get_weather(ctx:RunContext[Deps],lat:float,lng:float)->dict[str,any]:
         span.set_attribute('response33',data)
         
         values = data['data']['values']
+        curr_time = data['data']['time']
         
     code_lookup = {
           0: "Unknown",
@@ -176,6 +186,18 @@ async def get_air_quality(ctx:RunContext[Deps],lat:float,lng:float)->dict[str,an
         'pollutants': data['list'][0]['components']
     }
     
+
+@agent.result_validator
+def validate_result(ctx:RunContext[Deps],result:Result)->Result:
+    errors:list[str] = []
+    if isinstance(result,WeatherResponse):
+        return result
+    elif isinstance(result,LocationNotFound):
+        err = "Location not found, You have provided a wrong location"
+        errors.append(err)
+        return UserError('\n'.join(errors))
+    
+
 
 class weatherQuery(BaseModel):
     query:str
