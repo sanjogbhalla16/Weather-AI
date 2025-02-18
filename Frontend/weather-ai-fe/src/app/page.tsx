@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle"; // Import the toggle button
 import { Input } from "@/components/ui/input";
