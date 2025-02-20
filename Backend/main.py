@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 import time
 from typing import List,Union
 from fastapi import FastAPI
+from fastapi import Request
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -197,14 +198,18 @@ def validate_result(ctx:RunContext[Deps],result:Result)->Result:
         errors.append(err)
         return UserError('\n'.join(errors))
     
-
-
 class weatherQuery(BaseModel):
     query:str
 
 @app.post('/weather')
-async def main(body:weatherQuery):
+async def main(request:Request, body:weatherQuery):
+    request_data = await request.json()
+    print("Received request data:", request_data)  # Debugging print
+    
     query: str = body.query
+    if not query:
+        return {"error": "Query cannot be empty"}
+    
     geo_api_key = os.getenv('GEO_API_KEY')
     weather_api_key = os.getenv('WEATHER_API_KEY')
     openweather_api_key = os.getenv('OPENWEATHER_API_KEY')
