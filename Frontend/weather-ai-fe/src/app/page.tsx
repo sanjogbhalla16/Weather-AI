@@ -2,10 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useState } from "react";
 import axios from "axios";
+import { motion } from "framer-motion"; // For animations
 
 // Function to get weather icon
 const getWeatherIcon = (description: string) => {
@@ -48,10 +48,8 @@ export default function Home() {
         { query },
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log(response.data);
       setWeatherData(response.data);
     } catch (e) {
-      console.log("this is the error message", e);
       setError((e as Error).message);
     } finally {
       setLoading(false);
@@ -59,19 +57,19 @@ export default function Home() {
   };
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="grid grid-rows-[auto_1fr] items-center justify-items-center min-h-screen p-8 pb-20 gap-10 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      {/* Header with Toggle */}
       <div className="flex justify-between w-full max-w-4xl">
         <h1 className="text-4xl font-bold">Weather AI</h1>
         <ModeToggle />
       </div>
 
-      {loading ? (
-        <Skeleton className="w-full max-w-sm h-10 rounded-md" />
-      ) : weatherdata ? null : (
+      {/* Search Input */}
+      {!weatherdata && (
         <div className="flex w-full max-w-sm items-center space-x-2">
           <Input
             type="text"
-            placeholder="Enter Your Weather Query"
+            placeholder="Enter Your City Name"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -85,37 +83,49 @@ export default function Home() {
         </div>
       )}
 
+      {/* Back Button */}
       {weatherdata && (
-        <Card className="w-full max-w-sm text-center rounded-xl shadow-xl p-6 bg-gradient-to-b from-blue-600 to-indigo-900 text-white border border-gray-200">
-          <CardHeader>
-            <CardTitle className="text-2xl font-semibold">
-              {weatherdata.location}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <p className="text-lg">
-              📍 Coordinates: {weatherdata.latitude}, {weatherdata.longitude}
-            </p>
-            <div className="flex items-center justify-center space-x-2">
-              <span className="text-4xl">
-                {getWeatherIcon(weatherdata.weather_description)}
-              </span>
-            </div>
-            <p className="text-lg">
-              🌡️ Temperature: {weatherdata.weather_temperature}°C
-            </p>
-            <p className="text-lg">📝 {weatherdata.weather_description}</p>
-            <p className="text-lg">💧 Air Quality: {weatherdata.air_quality}</p>
-            <p className="text-lg font-semibold">💨 Pollutants:</p>
-            <ul className="text-sm space-y-1">
-              {weatherdata.pollutant_keys.map((key, index) => (
-                <li key={key} className="text-gray-200">
-                  {key}: {weatherdata.pollutant_values[index]}
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+        <Button
+          onClick={() => setWeatherData(null)}
+          className="absolute top-16 left-10 bg-gray-800 text-white px-4 py-2 rounded-lg"
+        >
+          ← Back
+        </Button>
+      )}
+
+      {/* Weather Card with Animation */}
+      {weatherdata && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Card className="w-full max-w-xs rounded-xl shadow-2xl bg-gradient-to-b from-blue-500 to-purple-800 text-white border border-gray-300 p-6">
+            <CardContent className="text-center space-y-4">
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+              >
+                <span className="text-6xl">
+                  {getWeatherIcon(weatherdata.weather_description)}
+                </span>
+              </motion.div>
+              <p className="text-3xl font-bold">
+                {weatherdata.weather_temperature}°C
+              </p>
+              <p className="text-lg">{weatherdata.location}</p>
+              <div className="flex justify-between mt-4">
+                <p className="text-sm flex items-center gap-1">
+                  💧 {weatherdata.air_quality}
+                  Air Quality
+                </p>
+                <p className="text-sm flex items-center gap-1">
+                  🌪️ {weatherdata.pollutant_values[0]} Wind Speed
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       )}
     </div>
   );
