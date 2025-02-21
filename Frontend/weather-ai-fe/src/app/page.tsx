@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion"; // For animations
@@ -33,13 +33,11 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [weatherdata, setWeatherData] = useState<Weather | null>(null);
-  const [error, setError] = useState("");
 
   const fetchWeather = async () => {
     if (!query) return;
 
     setLoading(true);
-    setError("");
     setWeatherData(null);
 
     try {
@@ -50,7 +48,7 @@ export default function Home() {
       );
       setWeatherData(response.data);
     } catch (e) {
-      setError((e as Error).message);
+      console.log("error", e);
     } finally {
       setLoading(false);
     }
