@@ -152,7 +152,8 @@ async def get_weather(ctx:RunContext[Deps],lat:float,lng:float)->dict[str,any]:
         } 
         
     return {
-            'temperature': f'{values['temperatureApparent']}°C',
+            'temperature': f"{values['temperatureApparent']}°C",
+            'humidity': f"{values['humidity']}%",
             'description': code_lookup.get(values['weatherCode'], "Unknown")
         }
 
