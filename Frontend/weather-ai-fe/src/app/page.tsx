@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import axios from "axios";
-import { motion } from "framer-motion"; // For animations
+import { motion } from "framer-motion";
 
 // Function to get weather icon
 const getWeatherIcon = (description: string) => {
@@ -76,7 +77,7 @@ export default function Home() {
             onClick={fetchWeather}
             disabled={!query || loading}
           >
-            Submit
+            {loading ? "Loading..." : "Submit"}
           </Button>
         </div>
       )}
@@ -91,26 +92,23 @@ export default function Home() {
         </Button>
       )}
 
-      {/* Skeleton Loader when loading */}
+      {/* Skeleton Loader */}
       {loading && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Card className="w-full max-w-xs rounded-xl shadow-2xl bg-gray-300 animate-pulse p-6">
-            <CardContent className="text-center space-y-4">
-              <div className="h-12 w-12 bg-gray-400 rounded-full mx-auto"></div>
-              <div className="h-6 bg-gray-400 rounded w-1/2 mx-auto"></div>
-              <div className="h-4 bg-gray-400 rounded w-3/4 mx-auto"></div>
-              <div className="h-4 bg-gray-400 rounded w-1/2 mx-auto"></div>
-            </CardContent>
-          </Card>
-        </motion.div>
+        <Card className="w-full max-w-xs rounded-xl shadow-2xl bg-gradient-to-b from-blue-500 to-purple-800 text-white border border-gray-300 p-6">
+          <CardContent className="text-center space-y-4">
+            <Skeleton className="h-10 w-10 mx-auto rounded-full" />
+            <Skeleton className="h-8 w-1/2 mx-auto" />
+            <Skeleton className="h-5 w-3/4 mx-auto" />
+            <div className="flex justify-between mt-4">
+              <Skeleton className="h-5 w-1/3" />
+              <Skeleton className="h-5 w-1/3" />
+            </div>
+          </CardContent>
+        </Card>
       )}
 
       {/* Weather Card with Animation */}
-      {weatherdata && !loading && (
+      {!loading && weatherdata && (
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
