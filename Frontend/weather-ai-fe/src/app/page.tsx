@@ -91,8 +91,26 @@ export default function Home() {
         </Button>
       )}
 
+      {/* Skeleton Loader when loading */}
+      {loading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Card className="w-full max-w-xs rounded-xl shadow-2xl bg-gray-300 animate-pulse p-6">
+            <CardContent className="text-center space-y-4">
+              <div className="h-12 w-12 bg-gray-400 rounded-full mx-auto"></div>
+              <div className="h-6 bg-gray-400 rounded w-1/2 mx-auto"></div>
+              <div className="h-4 bg-gray-400 rounded w-3/4 mx-auto"></div>
+              <div className="h-4 bg-gray-400 rounded w-1/2 mx-auto"></div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+
       {/* Weather Card with Animation */}
-      {weatherdata && (
+      {weatherdata && !loading && (
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -114,8 +132,7 @@ export default function Home() {
               <p className="text-lg">{weatherdata.location}</p>
               <div className="flex justify-between mt-4">
                 <p className="text-sm flex items-center gap-1">
-                  💧 {weatherdata.air_quality}
-                  Air Quality
+                  💧 {weatherdata.air_quality} Air Quality
                 </p>
                 <p className="text-sm flex items-center gap-1">
                   🌪️ {weatherdata.pollutant_values[0]} Wind Speed
