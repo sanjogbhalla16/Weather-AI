@@ -1,18 +1,68 @@
-# Made a Weather AI Agent.
+🌤️ Weather AI Agent
+🚀 Project Overview
+The Weather AI Agent is a smart weather assistant that provides real-time weather updates based on the city name entered by the user. Built with modern web technologies, it fetches accurate weather data using multiple APIs and presents it in a user-friendly interface.
 
-Made using FastAPI, Next.js, TailwindCSS, Vercel, and Shadcn UI, Pydantic AI.
+🔗 Live Demo
+🔗 Weather AI Agent
 
-Deployed on Vercel.
+🛠️ Tech Stack
+Backend: FastAPI, Pydantic AI
+Frontend: Next.js, TailwindCSS, Shadcn UI
+Deployment: Vercel
+📦 Features
+✅ Fetches weather data based on city name
+✅ Uses multiple weather APIs for accurate results
+✅ Provides detailed weather insights (temperature, humidity, wind speed, etc.)
+✅ Simple and elegant UI for ease of use
+✅ Fast and efficient API calls
 
-Link: https://weather-ai-agent-nine.vercel.app/
+⚙️ Setup & Installation
+1️⃣ Clone the Repository
+sh
+Copy
+Edit
+git clone https://github.com/your-username/weather-ai-agent.git  
+cd weather-ai-agent  
+2️⃣ Install Dependencies
+Backend (FastAPI)
+sh
+Copy
+Edit
+pip install -r requirements.txt  
+Frontend (Next.js)
+sh
+Copy
+Edit
+cd frontend  
+npm install  
+3️⃣ Configure API Keys
+Create a .env file and add the following API keys:
 
-# How to use:
+env
+Copy
+Edit
+GEMINI_API_KEY=your_gemini_api_key  
+GEO_API_KEY=your_geo_api_key  
+WEATHER_API_KEY=your_weather_api_key  
+OPENWEATHER_API_KEY=your_openweather_api_key  
+4️⃣ Run the Project
+Start Backend (FastAPI)
+sh
+Copy
+Edit
+uvicorn main:app --reload  
+Start Frontend (Next.js)
+sh
+Copy
+Edit
+cd frontend  
+npm run dev  
+🏎️ Future Enhancements
+Improve AI-based weather insights
+Add voice-based weather updates
+Support for multiple locations
+Mobile app version
+📜 License
+This project is licensed under the MIT License.
 
-1. Enter your GEMINI API key in the .env file.
-2. Enter your GEO API key in the .env file.
-3. Enter your WEATHER API key in the .env file.
-4. Enter your OPENWEATHER API key in the .env file.
-
-# Features:
-
-1. Weather AI Agent.
+Let me know if you need any modifications! 🚀
