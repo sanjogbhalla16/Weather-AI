@@ -1,26 +1,33 @@
-🌤️ Weather AI Agent
-🚀 Project Overview
-The Weather AI Agent is a smart weather assistant that provides real-time weather updates based on the city name entered by the user. Built with modern web technologies, it fetches accurate weather data using multiple APIs and presents it in a user-friendly interface.
+# 🌤️ Weather AI Agent  
 
-🔗 Live Demo
-🔗 Weather AI Agent
+## 🚀 Project Overview  
+The **Weather AI Agent** is a smart weather assistant that provides real-time weather updates based on the city name entered by the user. Built with modern web technologies, it fetches accurate weather data using multiple APIs and presents it in a user-friendly interface.  
 
-🛠️ Tech Stack
-Backend: FastAPI, Pydantic AI
-Frontend: Next.js, TailwindCSS, Shadcn UI
-Deployment: Vercel
-📦 Features
-✅ Fetches weather data based on city name
-✅ Uses multiple weather APIs for accurate results
-✅ Provides detailed weather insights (temperature, humidity, wind speed, etc.)
-✅ Simple and elegant UI for ease of use
-✅ Fast and efficient API calls
+### 🔗 **Live Demo**  
+🔗 [Weather AI Agent](https://weather-ai-agent-nine.vercel.app/)  
 
-⚙️ Setup & Installation
-1️⃣ Clone the Repository
-sh
-Copy
-Edit
+---
+
+## 🛠️ Tech Stack  
+- **Backend:** FastAPI, Pydantic AI  
+- **Frontend:** Next.js, TailwindCSS, Shadcn UI  
+- **Deployment:** Vercel  
+
+---
+
+## 📦 Features  
+✅ Fetches weather data based on city name  
+✅ Uses multiple weather APIs for accurate results  
+✅ Provides detailed weather insights (temperature, humidity, wind speed, etc.)  
+✅ Simple and elegant UI for ease of use  
+✅ Fast and efficient API calls  
+
+---
+
+## ⚙️ Setup & Installation  
+
+### 1️⃣ Clone the Repository  
+```sh
 git clone https://github.com/your-username/weather-ai-agent.git  
 cd weather-ai-agent  
 2️⃣ Install Dependencies
@@ -64,5 +71,3 @@ Support for multiple locations
 Mobile app version
 📜 License
 This project is licensed under the MIT License.
-
-Let me know if you need any modifications! 🚀
