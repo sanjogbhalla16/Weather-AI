@@ -64,10 +64,25 @@ Copy
 Edit
 cd frontend  
 npm run dev  
-🏎️ Future Enhancements
-Improve AI-based weather insights
-Add voice-based weather updates
-Support for multiple locations
-Mobile app version
-📜 License
+
+## 🏎️ Future Enhancements  
+
+### **🔧 Backend Improvements**  
+- Enhance AI-based weather insights using machine learning.  
+- Integrate advanced weather models for better predictions.  
+
+### **🗣️ Voice-Based Features**  
+- Add text-to-speech functionality for voice-based weather updates.  
+- Enable voice commands for hands-free weather queries.  
+
+### **🌍 Multi-Location Support**  
+- Allow users to check weather for multiple locations simultaneously.  
+- Implement a favorites feature to save preferred locations.  
+
+### **📱 Mobile App Version**  
+- Develop a mobile-friendly version of the application.  
+- Optimize UI/UX for seamless mobile experience.  
+
+
+##📜 License
 This project is licensed under the MIT License.
