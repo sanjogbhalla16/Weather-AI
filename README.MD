@@ -27,43 +27,37 @@ The **Weather AI Agent** is a smart weather assistant that provides real-time we
 ## ⚙️ Setup & Installation  
 
 ### 1️⃣ Clone the Repository  
+
 ```sh
 git clone https://github.com/your-username/weather-ai-agent.git  
 cd weather-ai-agent  
+
 2️⃣ Install Dependencies
+
 Backend (FastAPI)
-sh
-Copy
-Edit
-pip install -r requirements.txt  
+pip install -r requirements.txt 
+
 Frontend (Next.js)
-sh
-Copy
-Edit
 cd frontend  
 npm install  
-3️⃣ Configure API Keys
-Create a .env file and add the following API keys:
 
-env
-Copy
-Edit
+3️⃣ Configure API Keys
+
+Create a .env file and add the following API keys:
 GEMINI_API_KEY=your_gemini_api_key  
 GEO_API_KEY=your_geo_api_key  
 WEATHER_API_KEY=your_weather_api_key  
 OPENWEATHER_API_KEY=your_openweather_api_key  
+
 4️⃣ Run the Project
+
 Start Backend (FastAPI)
-sh
-Copy
-Edit
 uvicorn main:app --reload  
+
 Start Frontend (Next.js)
-sh
-Copy
-Edit
 cd frontend  
 npm run dev  
+
 ```
 ## 🏎️ Future Enhancements  
 
@@ -84,5 +78,6 @@ npm run dev
 - Optimize UI/UX for seamless mobile experience.  
 
 
-##📜 **License**
+##📜 License
+
 This project is licensed under the MIT License.
