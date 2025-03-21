@@ -84,5 +84,5 @@ npm run dev
 - Optimize UI/UX for seamless mobile experience.  
 
 
-##📜 License
+##📜 **License**
 This project is licensed under the MIT License.
