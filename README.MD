@@ -77,7 +77,6 @@ npm run dev
 - Develop a mobile-friendly version of the application.  
 - Optimize UI/UX for seamless mobile experience.  
 
-
 ##📜 License
 
 This project is licensed under the MIT License.
