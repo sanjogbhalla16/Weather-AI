@@ -64,7 +64,7 @@ Copy
 Edit
 cd frontend  
 npm run dev  
-
+```
 ## 🏎️ Future Enhancements  
 
 ### **🔧 Backend Improvements**  
